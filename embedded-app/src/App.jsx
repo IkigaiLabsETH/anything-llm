@@ -111,16 +111,16 @@ export default function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = e.target.message.value;
+    let message = e.target.message.value;
+    // Validate and sanitize the message
+    message = sanitize(message);
+    if (!validate(message)) {
+      // Show an error message
+      return;
+    }
     e.target.message.value = "";
     await streamMessages(message);
   };
-
-  return (
-    <>
-      <head>
-        <link
-          href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
           rel="stylesheet"
         />
       </head>
