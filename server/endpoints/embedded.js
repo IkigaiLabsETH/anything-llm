@@ -112,18 +112,18 @@ function embeddedEndpoints(app) {
       });
       response.end();
     } catch (e) {
-      console.error(e);
-      writeResponseChunk(response, {
-        id: uuidv4(),
-        type: "abort",
-        textResponse: null,
-        sources: [],
-        close: true,
-        error: e.message,
-      });
-      response.end();
-    }
-  });
+      catch (e) {
+        console.error("Error occurred in /workspace/:userId/embedded-chat endpoint: ", e);
+        writeResponseChunk(response, {
+          id: uuidv4(),
+          type: "abort",
+          textResponse: null,
+          sources: [],
+          close: true,
+          error: e.message,
+        });
+        response.end();
+      }
 
   app.post(
     "/workspace/:userId/stream-embedded-chat",
