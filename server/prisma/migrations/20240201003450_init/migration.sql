@@ -8,3 +8,4 @@ CREATE TABLE "workspace_suggested_messages" (
     "lastUpdatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "workspace_suggested_messages_workspaceId_fkey" FOREIGN KEY ("workspaceId") REFERENCES "workspaces" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE INDEX idx_workspace_suggested_messages_workspaceId ON workspace_suggested_messages(workspaceId);
