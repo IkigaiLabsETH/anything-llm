@@ -44,19 +44,19 @@ export default function WorkspaceSettings() {
     setHasChanges(false);
   };
 
+  const createNewMessage = (heading, message) => {
+    return { heading, message };
+  };
+  
   const addMessage = () => {
     setEditingIndex(-1);
     if (suggestedMessages.length >= 4) {
       showToast("Maximum of 4 messages allowed.", "warning");
       return;
     }
-    const defaultMessage = {
-      heading: "Explain to me",
-      message: "the benefits of AnythingLLM",
-    };
+    const defaultMessage = createNewMessage("Explain to me", "the benefits of AnythingLLM");
     setNewMessage(defaultMessage);
-    setSuggestedMessages([...suggestedMessages, { ...defaultMessage }]);
-
+    setSuggestedMessages([...suggestedMessages, defaultMessage]);
     setHasChanges(true);
   };
 
