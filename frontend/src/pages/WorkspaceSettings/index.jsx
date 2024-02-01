@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { isMobile } from "react-device-detect";
-import showToast from "@/utils/toast";
-import { ArrowUUpLeft, Plus, X } from "@phosphor-icons/react";
-import Workspace from "@/models/workspace";
-import paths from "@/utils/paths";
+import React, { useState, useEffect, useCallback } from "react";
 
-export default function WorkspaceSettings() {
-  const [hasChanges, setHasChanges] = useState(false);
-  const [workspace, setWorkspace] = useState(null);
-  const [suggestedMessages, setSuggestedMessages] = useState([]);
-  const [editingIndex, setEditingIndex] = useState(-1);
-  const [newMessage, setNewMessage] = useState({ heading: "", message: "" });
-  const { slug } = useParams();
+//...
 
-  useEffect(() => {
-    async function fetchSuggestedMessages() {
-      const workspaceSuggestedMessages =
-        await Workspace.getSuggestedMessages(slug);
-      setSuggestedMessages(workspaceSuggestedMessages || []);
-    }
-    fetchSuggestedMessages();
-  }, [slug]);
+const handleSaveSuggestedMessages = useCallback(async () => {
+  const { success, error } = await Workspace.setSuggestedMessages(
+    slug,
+    suggestedMessages
+  );
+  if (!success) {
+    showToast(`Failed to update welcome messages: ${error}`, "error");
+    return;
+  }
+  showToast("Successfully updated welcome messages.", "success");
+  setHasChanges(false);
+}, [slug, suggestedMessages]);
 
-  useEffect(() => {
-    async function fetchWorkspace() {
-      const workspace = await Workspace.bySlug(slug);
-      setWorkspace(workspace);
+//...
+
+const handleRemoveMessage = useCallback((index) => {
+  removeMessage(index);
+  setEditingIndex(-1);
+}, [suggestedMessages]);
+
+//...
+
+const handleSendSuggestedMessage = useCallback((heading, message) => {
+  // existing code
+}, [sendCommand]);
     }
     fetchWorkspace();
   }, [slug]);
