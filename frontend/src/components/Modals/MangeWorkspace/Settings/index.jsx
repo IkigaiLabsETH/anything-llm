@@ -48,7 +48,7 @@ export default function WorkspaceSettings({ active, workspace, settings }) {
   const [deleting, setDeleting] = useState(false);
   const defaults = recommendedSettings(settings?.LLMProvider);
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = useCallback(async (e) => {
     setSaving(true);
     e.preventDefault();
     const data = {};
@@ -65,16 +65,16 @@ export default function WorkspaceSettings({ active, workspace, settings }) {
     }
     setSaving(false);
     setHasChanges(false);
-  };
-
-  const deleteWorkspace = async () => {
+  }, [workspace, settings]);
+  
+  const deleteWorkspace = useCallback(async () => {
     if (
       !window.confirm(
         `You are about to delete your entire ${workspace.name} workspace. This will remove all vector embeddings on your vector database.\n\nThe original source files will remain untouched. This action is irreversible.`
       )
     )
       return false;
-
+  
     setDeleting(true);
     const success = await Workspace.delete(workspace.slug);
     if (!success) {
@@ -82,11 +82,11 @@ export default function WorkspaceSettings({ active, workspace, settings }) {
       setDeleting(false);
       return;
     }
-
+  
     workspace.slug === slug
       ? (window.location = paths.home())
       : window.location.reload();
-  };
+  }, [workspace]);
 
   return (
     <form ref={formEl} onSubmit={handleUpdate}>
