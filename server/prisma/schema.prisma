@@ -102,7 +102,7 @@ model workspaces {
 
 model workspace_suggested_messages {
   id            Int        @id @default(autoincrement())
-  workspaceId   Int
+  workspaceId   Int        @index
   heading       String
   message       String
   createdAt     DateTime   @default(now())
