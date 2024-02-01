@@ -8,3 +8,8 @@ CREATE TABLE "workspace_suggested_messages" (
     "lastUpdatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "workspace_suggested_messages_workspaceId_fkey" FOREIGN KEY ("workspaceId") REFERENCES "workspaces" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE TRIGGER update_lastUpdatedAt AFTER UPDATE ON workspace_suggested_messages
+FOR EACH ROW
+BEGIN
+    UPDATE workspace_suggested_messages SET lastUpdatedAt = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
