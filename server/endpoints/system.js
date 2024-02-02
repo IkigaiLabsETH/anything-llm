@@ -124,13 +124,13 @@ function systemEndpoints(app) {
           return;
         }
 
-        if (!bcrypt.compareSync(password, existingUser.password)) {
-          response.status(200).json({
-            user: null,
-            valid: false,
-            token: null,
-            message: "[002] Invalid login credentials.",
-          });
+        bcrypt.compare(password, existingUser.password, function(err, result) {
+          if (result) {
+            // Passwords match
+          } else {
+            // Passwords don't match
+          }
+        });
           return;
         }
 
