@@ -58,10 +58,10 @@ function chatEndpoints(app) {
         response.flushHeaders();
 
         if (multiUserMode(response) && user.role !== ROLES.admin) {
-          const limitMessagesSetting = await SystemSettings.get({
-            label: "limit_user_messages",
-          });
-          const limitMessages = limitMessagesSetting?.value === "true";
+          const [limitMessagesSetting, messageLimitSetting] = await prisma.$transaction([
+            SystemSettings.get({ label: "limit_user_messages" }),
+            SystemSettings.get({ label: "message_limit" })
+          ]);
 
           if (limitMessages) {
             const messageLimitSetting = await SystemSettings.get({
