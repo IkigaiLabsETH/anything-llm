@@ -137,7 +137,7 @@ model event_logs {
   event         String
   description   String?
   metadata      String?
-  userId        Int?
+  userId        Int?      @relation(fields: [userId], references: [id])
   occurredAt    DateTime  @default(now())
   ipAddress     String?
   @@index([userId])
