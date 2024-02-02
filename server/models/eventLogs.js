@@ -21,10 +21,10 @@ const EventLogs = {
       });
       return { eventLog, message: null };
     } catch (error) {
-      console.error(error.message);
-      return { eventLog: null, message: error.message };
-    }
-  },
+      const logger = require('./logger'); // assuming you have a logger module
+      
+      // replace console.error with logger.error
+      logger.error(error.message);
 
   getByEvent: async function (event, limit = null, orderBy = null) {
     try {
