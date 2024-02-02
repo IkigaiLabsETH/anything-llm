@@ -1,5 +1,5 @@
-process.env.NODE_ENV === "development"
-  ? require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` })
+const { execSync } = require("child_process");
+const bcrypt = require("bcrypt");
   : require("dotenv").config();
 const { viewLocalFiles, normalizePath } = require("../utils/files");
 const {
